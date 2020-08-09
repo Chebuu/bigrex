@@ -6,13 +6,14 @@ var router = express.Router();
 
 const HELP_HTML = '../public/Help.html';
 
-if (!fileURLToPath.Exists(HELP_HTML)) 
-  execr('knitHelp')
-    .then(function(d) { writeHelp(d, HELP_HTML) })
-    .catch(console.error);
-
 router.get('/help', function(req, res, next) {
-  res.sendFile(HELP_HTML);
+  fs.access(HELP_HTML, async function(err) {
+    if (err && err.code === 'ENOENT') {
+      const kdata = await execr('knitHelp')
+      writeHelp(kdata, HELP_HTML) 
+    }
+    res.sendFile(HELP_HTML);
+  })
 });
 
 module.exports = router;

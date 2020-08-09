@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-const execr = require('../src/execr.js')
+var execr = require('../src/execr.js')
 
 router.get('/example', function(req, res, next) {
-  return null;
+  return res.send(execr('../lib/runExample.R'));
 });
 
 module.exports = router;
